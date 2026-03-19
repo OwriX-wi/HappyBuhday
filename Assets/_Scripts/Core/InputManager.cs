@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using System;
 
 public class InputManager : MonoBehaviour
 {
@@ -22,7 +21,9 @@ public class InputManager : MonoBehaviour
     private InputAction crouchAction;
     private InputAction pauseAction;
     private InputAction cancelAction;
-
+    private InputAction zoomAction;
+    private InputAction weaponNextAction;
+    private InputAction weaponPreviousAction;
 
     public Vector2 MoveInput { get; private set; }
     public Vector2 LookInput { get; private set; }
@@ -31,13 +32,15 @@ public class InputManager : MonoBehaviour
     public bool InteractPressed { get; private set; }
     public bool SprintHeld { get; private set; }
     public bool CrouchHeld { get; private set; }
+    public float ZoomInput { get; private set; }
 
-
-    public Action OnJumpPressed;
-    public Action OnAttackPressed;
-    public Action OnInteractPressed;
-    public Action OnPausePressed;
-    public Action OnCancelPressed;
+    public System.Action OnJumpPressed;
+    public System.Action OnAttackPressed;
+    public System.Action OnInteractPressed;
+    public System.Action OnPausePressed;
+    public System.Action OnCancelPressed;
+    public System.Action OnWeaponNextPressed;
+    public System.Action OnWeaponPreviousPressed;
 
     private void Awake()
     {
@@ -60,7 +63,7 @@ public class InputManager : MonoBehaviour
     {
         if (inputActions == null)
         {
-            Debug.LogError("InputManager: Input Actions Asset Ã­Ã¥ Ã­Ã Ã§Ã­Ã Ã·Ã¥Ã­!");
+            Debug.LogError("InputManager: Input Actions Asset");
             return;
         }
 
@@ -73,13 +76,6 @@ public class InputManager : MonoBehaviour
             return;
         }
 
-        if (uiActionMap == null)
-        {
-            Debug.LogWarning("InputManager: Action Map 'UI' Ã­Ã¥ Ã­Ã Ã©Ã¤Ã¥Ã­!");
-            return;
-        }
-
-
         moveAction = playerActionMap.FindAction("Move");
         lookAction = playerActionMap.FindAction("Look");
         jumpAction = playerActionMap.FindAction("Jump");
@@ -88,6 +84,10 @@ public class InputManager : MonoBehaviour
         sprintAction = playerActionMap.FindAction("Sprint");
         crouchAction = playerActionMap.FindAction("Crouch");
         pauseAction = playerActionMap.FindAction("Pause");
+        zoomAction = playerActionMap.FindAction("Zoom");
+        weaponNextAction = playerActionMap.FindAction("Next");
+        weaponPreviousAction = playerActionMap.FindAction("Previous");
+
         if (uiActionMap != null)
             cancelAction = uiActionMap.FindAction("Cancel");
 
@@ -101,6 +101,10 @@ public class InputManager : MonoBehaviour
             pauseAction.performed += OnPausePerformed;
         if (cancelAction != null)
             cancelAction.performed += OnCancelPerformed;
+        if (weaponNextAction != null)
+            weaponNextAction.performed += OnWeaponNextPerformed;
+        if (weaponPreviousAction != null)
+            weaponPreviousAction.performed += OnWeaponPreviousPerformed;
 
         EnablePlayerInput();
     }
@@ -141,6 +145,10 @@ public class InputManager : MonoBehaviour
             pauseAction.performed -= OnPausePerformed;
         if (cancelAction != null)
             cancelAction.performed -= OnCancelPerformed;
+        if (weaponNextAction != null)
+            weaponNextAction.performed -= OnWeaponNextPerformed;
+        if (weaponPreviousAction != null)
+            weaponPreviousAction.performed -= OnWeaponPreviousPerformed;
     }
 
     private void Update()
@@ -152,8 +160,10 @@ public class InputManager : MonoBehaviour
     {
         MoveInput = moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
         LookInput = lookAction != null ? lookAction.ReadValue<Vector2>() : Vector2.zero;
+        ZoomInput = zoomAction != null ? zoomAction.ReadValue<Vector2>().y : 0f;
         SprintHeld = sprintAction != null && sprintAction.IsPressed();
         CrouchHeld = crouchAction != null && crouchAction.IsPressed();
+
 
     }
 
@@ -185,6 +195,15 @@ public class InputManager : MonoBehaviour
         OnCancelPressed?.Invoke();
     }
 
+    private void OnWeaponNextPerformed(InputAction.CallbackContext context)
+    {
+        OnWeaponNextPressed?.Invoke();
+    }
+
+    private void OnWeaponPreviousPerformed(InputAction.CallbackContext context)
+    {
+        OnWeaponPreviousPressed?.Invoke();
+    }
 
     public void ResetButtonFlags()
     {
@@ -233,6 +252,11 @@ public class InputManager : MonoBehaviour
     public Vector2 GetLookInput()
     {
         return LookInput;
+    }
+
+    public float GetZoomInput()
+    {
+        return ZoomInput;
     }
 
     public bool IsJumpPressed()
