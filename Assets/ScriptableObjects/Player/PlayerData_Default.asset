@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   maxMana: 0
-  moveSpeed: 5
+  moveSpeed: 20
   jumpForce: 5
-  acceleration: 10
+  acceleration: 50
   rotationSpeed: 720
