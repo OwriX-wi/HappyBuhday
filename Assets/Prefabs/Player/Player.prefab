@@ -73,8 +73,8 @@ Transform:
   m_GameObject: {fileID: 2523420801970685604}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.098648, z: -0.26631927}
-  m_LocalScale: {x: 3.5989, y: 3.5989, z: 3.5989}
+  m_LocalPosition: {x: 0, y: -1.85, z: -0.26631927}
+  m_LocalScale: {x: 2.505338, y: 5.388318, z: 2.5053382}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7274937232287817599}
@@ -144,7 +144,6 @@ GameObject:
   - component: {fileID: 2925081012356011428}
   - component: {fileID: 1776712093442717625}
   - component: {fileID: 3937613085479603307}
-  - component: {fileID: 6340472199781712243}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -187,13 +186,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 7.51
-  m_Radius: 1.98
+  m_Height: 10.58
+  m_Radius: 1.31
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: -3.12, z: -0.3}
+  m_Center: {x: 0, y: -1.76, z: -0.3}
 --- !u!114 &1776712093442717625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,15 +226,3 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: 8cdedc469bf75fc48aa2f991b312d3a3, type: 2}
   currentHealth: 100
   currentMana: 0
---- !u!114 &6340472199781712243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7697741836459566514}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 982e07b18e7400f459b85cccd896726e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
