@@ -41,9 +41,9 @@
 //}
 
 
-
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class BootstrapManager : MonoBehaviour
 {
@@ -60,13 +60,21 @@ public class BootstrapManager : MonoBehaviour
         _initialized = true;
         DontDestroyOnLoad(gameObject);
 
-        // Создаём/поднимаем основные менеджеры
         CreateGameManager();
         CreateSceneLoader();
         CreateEventBus();
         CreateInputManager();
 
-        SceneLoader.Instance.Load(SceneNames.MainMenu);
+    }
+
+    private void Start()
+    {
+        SceneLoader.Instance.LoadWithLoading(SceneNames.MainMenu, PreloadBeforeMainMenu);
+    }
+
+    private IEnumerator PreloadBeforeMainMenu()
+    {
+        yield return null;
     }
 
     private static void CreateGameManager()

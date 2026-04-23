@@ -2,44 +2,49 @@ using UnityEngine;
 
 public enum GameState
 {
-    MainMenu = 0,
-    Playing = 1,
-    Paused = 2,
+    Menu,
+    Playing,
+    Paused,
 }
-
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public GameState CurrentState { get; private set; } = GameState.MainMenu;
 
+    public GameState CurrentState { get; private set; } = GameState.Menu;
 
-    void Awake()
+    private void Awake()
     {
-        if (Instance != null && Instance != this) //если уже есть экземпл€р GameManager
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-        Instance = this; //устанавливаем текущий экземпл€р как единственный
-        DontDestroyOnLoad(gameObject); //делаем так, чтобы GameManager не уничтожалс€ при загрузке новых сцен
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void StartGame()
     {
         CurrentState = GameState.Playing;
         Time.timeScale = 1f;
-        SceneLoader.Instance.Load(SceneNames.GameBase);
-        Debug.Log("Game Started");
+        SceneLoader.Instance.LoadWithLoading(SceneNames.GameBase);
+        Debug.Log("Game started");
+        if (InputManager.Instance != null)
+            InputManager.Instance.EnablePlayerInput();
     }
 
     public void GoToMenu()
     {
-        CurrentState = GameState.Playing;
+        CurrentState = GameState.Menu;
         Time.timeScale = 1f;
         SceneLoader.Instance.Load(SceneNames.MainMenu);
-        Debug.Log("Game Started");
+        Debug.Log("Go to Main Menu");
+        if (InputManager.Instance != null)
+            InputManager.Instance.EnableUIInput();
     }
+
     public void Pause()
     {
         if (CurrentState != GameState.Playing)

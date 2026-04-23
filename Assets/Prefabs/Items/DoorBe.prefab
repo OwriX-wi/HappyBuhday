@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4113035595295971708}
   - component: {fileID: 7211572314499154311}
+  - component: {fileID: 3217787542885092170}
   m_Layer: 0
   m_Name: DoorBe
   m_TagString: Untagged
@@ -46,10 +47,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f5ca96f78d40b49bae466337f2e725, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openAngle: 108
+  openAngle: 100
   openSpeed: 2
   doorPivot: {fileID: 2442570140609357953}
-  rb: {fileID: 8500118242465583276}
+--- !u!65 &3217787542885092170
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2423727539970515410}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.628357, y: 3.209671, z: 7.8450394}
+  m_Center: {x: 0.032196045, y: 10.182625, z: -3.5521698}
 --- !u!1 &2442570140609357953
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,81 +1,73 @@
 using UnityEngine;
-using UnityEngine.Animations;
-using System.Collections;
 
 public class DoorOpenMechanic : MonoBehaviour
 {
-    public float openAngle = 110f; // Угол открытия двери
-    public float openSpeed = 2.5f;  // Скорость открытия
+    public float openAngle = 110f;
+    public float openSpeed = 2.5f;
     private bool isPlayerNear = false;
     private bool isOpen = false;
-    private Quaternion closedRotation; // Закрытое положение
-    private Quaternion openRotation;   // Открытое положение
-    [SerializeField] private GameObject doorPivot; // Точка вращения двери
-    private Coroutine autoCloseCoroutine; // Ссылка на корутину для закрытия двери
+    private Quaternion closedRotation;
+    private Quaternion openRotation;
+    [SerializeField] private GameObject doorPivot;
+    private Transform playerTransform;
 
     void Start()
     {
-        // Сохраняем начальное и конечное вращение относительно doorPivot
         closedRotation = transform.rotation;
-        openRotation = Quaternion.AngleAxis(openAngle, Vector3.up) * closedRotation;
+        openRotation = closedRotation; // По умолчанию
     }
 
     void Update()
     {
-        // Проверяем, находится ли игрок рядом и нажата ли клавиша "E"
-        if (isPlayerNear && Input.GetKeyDown(KeyCode.E))
+        if (isPlayerNear && InputManager.Instance.IsInteractPressed())
         {
             isOpen = !isOpen;
 
-            if (isOpen == true)
+            if (isOpen)
             {
-                // Если дверь открывается, запускаем корутину для автоматического закрытия
-                if (autoCloseCoroutine != null)
+                // Определяем сторону открытия
+                if (playerTransform != null)
                 {
-                    StopCoroutine(autoCloseCoroutine); // Останавливаем предыдущую корутину, если она запущена
-                }
-                autoCloseCoroutine = StartCoroutine(AutoCloseDoor());
-            }
-            else
-            {
-                // Если дверь закрывается вручную, останавливаем корутину
-                if (autoCloseCoroutine != null)
-                {
-                    StopCoroutine(autoCloseCoroutine);
-                    autoCloseCoroutine = null;
+                    Vector3 toPlayer = playerTransform.position - transform.position;
+                    float side = Vector3.Dot(toPlayer, transform.right);
+
+                    float angle = (side > 0) ? openAngle : -openAngle;
+                    openRotation = Quaternion.AngleAxis(angle, Vector3.up) * closedRotation;
                 }
             }
         }
 
-        // Плавное вращение двери вокруг doorPivot
+        // Плавное вращение двери
         RotateDoor(isOpen ? openRotation : closedRotation);
     }
 
     private void RotateDoor(Quaternion targetRotation)
     {
-        // Рассчитываем вращение относительно doorPivot
+        // Плавное вращение двери к целевому положению
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * openSpeed);
-    }
 
-    private IEnumerator AutoCloseDoor()
-    {
-        // Ждём 7 секунд
-        yield return new WaitForSeconds(5f);
-
-        // Закрываем дверь
-        isOpen = false;
-        autoCloseCoroutine = null; // Сбрасываем ссылку на корутину
+        // Убедимся, что дверь точно возвращается в изначальное положение
+        if (!isOpen && Quaternion.Angle(transform.rotation, closedRotation) < 0.01f)
+        {
+            transform.rotation = closedRotation; // Устанавливаем точное начальное положение
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
             isPlayerNear = true;
+            playerTransform = other.transform;
+        }
     }
 
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
             isPlayerNear = false;
+            playerTransform = null;
+        }
     }
 }
