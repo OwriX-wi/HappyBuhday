@@ -63,7 +63,7 @@ public class InputManager : MonoBehaviour
     {
         if (inputActions == null)
         {
-            Debug.LogError("InputManager: Input Actions Asset");
+            Debug.LogError("InputManager: Input Actions Asset is not assigned!");
             return;
         }
 
@@ -72,7 +72,7 @@ public class InputManager : MonoBehaviour
 
         if (playerActionMap == null)
         {
-            Debug.LogError("InputManager: Action Map 'Player' Ã­Ã¥ Ã­Ã Ã©Ã¤Ã¥Ã­!");
+            Debug.LogError("InputManager: Action Map 'Player' not found!");
             return;
         }
 
@@ -163,8 +163,6 @@ public class InputManager : MonoBehaviour
         ZoomInput = zoomAction != null ? zoomAction.ReadValue<Vector2>().y : 0f;
         SprintHeld = sprintAction != null && sprintAction.IsPressed();
         CrouchHeld = crouchAction != null && crouchAction.IsPressed();
-
-
     }
 
     private void OnJumpPerformed(InputAction.CallbackContext context)
@@ -182,6 +180,7 @@ public class InputManager : MonoBehaviour
     private void OnInteractPerformed(InputAction.CallbackContext context)
     {
         InteractPressed = true;
+        Debug.Log("InputManager: Interact button pressed.");
         OnInteractPressed?.Invoke();
     }
 
