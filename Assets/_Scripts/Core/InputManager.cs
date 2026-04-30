@@ -37,6 +37,7 @@ public class InputManager : MonoBehaviour
     public System.Action OnJumpPressed;
     public System.Action OnAttackPressed;
     public System.Action OnInteractPressed;
+    public System.Action OnSprintPressed;
     public System.Action OnPausePressed;
     public System.Action OnCancelPressed;
     public System.Action OnWeaponNextPressed;

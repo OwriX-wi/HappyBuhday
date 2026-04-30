@@ -10,20 +10,9 @@ public class CandleVFXController : MonoBehaviour
     private bool isVFXActive = true;
     private Camera mainCamera;
     private ParticleSystem candleParticleSystem;
-    private bool isInteractPressed = false;
 
     void Start()
     {
-        // Подписка на событие OnInteractPressed
-        if (InputManager.Instance != null)
-        {
-            InputManager.Instance.OnInteractPressed += HandleInteractPressed;
-        }
-        else
-        {
-            Debug.LogError("CandleVFXController: InputManager instance not found!");
-        }
-
         mainCamera = Camera.main;
         candleParticleSystem = candleVFX.GetComponent<ParticleSystem>();
 
@@ -36,16 +25,20 @@ public class CandleVFXController : MonoBehaviour
     void Update()
     {
         if (!isVFXActive)
+        {
+            Debug.Log("Candle VFX is inactive. Update skipped.");
             return;
+        }
 
         if (IsPlayerLookingAtCandle())
         {
-            if (isInteractPressed) // Используем флаг, установленный событием
+            if (InputManager.Instance.IsInteractPressed())
             {
-                Debug.Log("Interact button pressed.");
                 holdTime += Time.deltaTime;
+                Debug.Log($"Hold time: {holdTime}"); // Лог текущего времени удержания
                 if (holdTime >= 3f)
                 {
+                    Debug.Log("Hold time reached 3 seconds. Calling StopCandleVFX().");
                     StopCandleVFX();
                 }
             }
@@ -58,17 +51,20 @@ public class CandleVFXController : MonoBehaviour
         {
             ResetHoldTime();
         }
-
-        // Сбрасываем флаг после обработки
-        isInteractPressed = false;
     }
 
     private void StopCandleVFX()
     {
         if (candleParticleSystem != null)
         {
+            Debug.Log("Stopping ParticleSystem...");
             candleParticleSystem.Stop();
-            Debug.Log("CandleVFXController: ParticleSystem stopped.");
+            candleVFX.SetActive(false); // Полностью отключаем объект
+            Debug.Log("CandleVFXController: ParticleSystem stopped and GameObject deactivated.");
+        }
+        else
+        {
+            Debug.LogError("CandleVFXController: ParticleSystem is null!");
         }
 
         isVFXActive = false;
@@ -77,49 +73,21 @@ public class CandleVFXController : MonoBehaviour
 
     private void ResetHoldTime()
     {
-        if (holdTime > 0)
-        {
-            Debug.Log("CandleVFXController: Hold time reset.");
-        }
-        holdTime = Mathf.Max(holdTime - Time.deltaTime, 0f); // Плавное уменьшение времени
+        holdTime = 0f;
     }
 
     private bool IsPlayerLookingAtCandle()
     {
         Ray ray = new Ray(mainCamera.transform.position, mainCamera.transform.forward);
         RaycastHit hit;
-        int layerMask = LayerMask.GetMask("Candle"); // Убедитесь, что свеча на слое "Candle"
+        int layerMask = LayerMask.GetMask("Candle");
 
-        // Визуализация луча
         Debug.DrawRay(ray.origin, ray.direction * interactDistance, Color.red);
 
         bool isLooking = Physics.Raycast(ray, out hit, interactDistance, layerMask) &&
                          hit.collider != null &&
                          hit.collider.gameObject == this.gameObject;
 
-        if (isLooking)
-        {
-            Debug.Log("CandleVFXController: Player is looking at the candle.");
-        }
-        else
-        {
-            Debug.Log("CandleVFXController: Player is NOT looking at the candle.");
-        }
-
         return isLooking;
-    }
-
-    private void HandleInteractPressed()
-    {
-        isInteractPressed = true;
-    }
-
-    private void OnDestroy()
-    {
-        // Отписка от события OnInteractPressed
-        if (InputManager.Instance != null)
-        {
-            InputManager.Instance.OnInteractPressed -= HandleInteractPressed;
-        }
     }
 }
