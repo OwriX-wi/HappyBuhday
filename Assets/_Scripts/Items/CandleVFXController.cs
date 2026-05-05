@@ -10,6 +10,8 @@ public class CandleVFXController : MonoBehaviour
     private bool isVFXActive = true;
     private Camera mainCamera;
     private ParticleSystem candleParticleSystem;
+    private float resetDelay = 0.5f; // Задержка перед сбросом
+    private float resetTimer = 0f;
 
     void Start()
     {
@@ -22,11 +24,11 @@ public class CandleVFXController : MonoBehaviour
         }
     }
 
+
     void Update()
     {
         if (!isVFXActive)
         {
-            Debug.Log("Candle VFX is inactive. Update skipped.");
             return;
         }
 
@@ -34,17 +36,22 @@ public class CandleVFXController : MonoBehaviour
         {
             if (InputManager.Instance.IsInteractPressed())
             {
+                Debug.Log("Button is being held.");
                 holdTime += Time.deltaTime;
-                Debug.Log($"Hold time: {holdTime}"); // Лог текущего времени удержания
+                resetTimer = 0f; // Сбрасываем таймер сброса
                 if (holdTime >= 3f)
                 {
-                    Debug.Log("Hold time reached 3 seconds. Calling StopCandleVFX().");
                     StopCandleVFX();
                 }
             }
             else
             {
-                ResetHoldTime();
+                Debug.Log("Button is not being held.");
+                resetTimer += Time.deltaTime;
+                if (resetTimer >= resetDelay)
+                {
+                    ResetHoldTime();
+                }
             }
         }
         else
@@ -59,7 +66,7 @@ public class CandleVFXController : MonoBehaviour
         {
             Debug.Log("Stopping ParticleSystem...");
             candleParticleSystem.Stop();
-            candleVFX.SetActive(false); // Полностью отключаем объект
+            candleVFX.SetActive(false);
             Debug.Log("CandleVFXController: ParticleSystem stopped and GameObject deactivated.");
         }
         else
@@ -69,11 +76,18 @@ public class CandleVFXController : MonoBehaviour
 
         isVFXActive = false;
         Debug.Log("CandleVFXController: Candle VFX is now inactive.");
+
+        // Добавьте эту строку:
+        CandleManager.Instance?.OnCandleExtinguished();
     }
 
     private void ResetHoldTime()
     {
-        holdTime = 0f;
+        if (holdTime > 0f)
+        {
+            Debug.Log("Hold time reset.");
+            holdTime = 0f;
+        }
     }
 
     private bool IsPlayerLookingAtCandle()

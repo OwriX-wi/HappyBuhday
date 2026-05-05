@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6275644455080095276}
   m_Layer: 0
   m_Name: Candle
-  m_TagString: Untagged
+  m_TagString: Candle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69,7 +69,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   candleVFX: {fileID: 2571624006886614378}
   interactDistance: 10
-  isInteractPressed: 0
 --- !u!1001 &7381435579800496067
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -271,7 +271,7 @@ public class InputManager : MonoBehaviour
 
     public bool IsInteractPressed()
     {
-        return InteractPressed;
+        return Input.GetKey(KeyCode.E); // Замените KeyCode.E на нужную клавишу
     }
 
     public bool IsSprintHeld()
