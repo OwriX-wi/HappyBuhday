@@ -7,10 +7,11 @@ public class CandleManager : MonoBehaviour
     [SerializeField] private int totalCandles = 5;
     [SerializeField] private float minAmbientIntensity = 0.2f;
     [SerializeField] private float minSkyboxExposure = 0.2f;
+    [SerializeField] private float initialAmbientIntensity = 0.5f;
+    [SerializeField] private float initialSkyboxExposure = 1.0f;
+
 
     private int extinguishedCandles = 0;
-    private float initialAmbientIntensity;
-    private float initialSkyboxExposure;
 
     private void Awake()
     {
@@ -25,6 +26,10 @@ public class CandleManager : MonoBehaviour
             initialSkyboxExposure = RenderSettings.skybox.GetFloat("_Exposure");
         else
             initialSkyboxExposure = 1.0f;
+
+        // Выводим значения в консоль
+        Debug.Log($"Initial Ambient Intensity: {initialAmbientIntensity}");
+        Debug.Log($"Initial Skybox Exposure: {initialSkyboxExposure}");
     }
 
     public void OnCandleExtinguished()

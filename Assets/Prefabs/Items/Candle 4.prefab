@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1581109502421540601}
   - component: {fileID: 2611178018729569825}
   - component: {fileID: 6275644455080095276}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Candle 4
   m_TagString: Candle
   m_Icon: {fileID: 0}
@@ -129,9 +129,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 647038799667286879, guid: c994195bbfbf8814ca32ab6b71e252d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 762726996004052171, guid: c994195bbfbf8814ca32ab6b71e252d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1203197604873904684, guid: c994195bbfbf8814ca32ab6b71e252d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2213075450927748820, guid: c994195bbfbf8814ca32ab6b71e252d3, type: 3}
       propertyPath: m_Name
       value: Vefects Candle 08
+      objectReference: {fileID: 0}
+    - target: {fileID: 2213075450927748820, guid: c994195bbfbf8814ca32ab6b71e252d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2373895066498360844, guid: c994195bbfbf8814ca32ab6b71e252d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3471900412704806523, guid: c994195bbfbf8814ca32ab6b71e252d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3491174642851909886, guid: c994195bbfbf8814ca32ab6b71e252d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5026051156802519721, guid: c994195bbfbf8814ca32ab6b71e252d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027892539884929288, guid: c994195bbfbf8814ca32ab6b71e252d3, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

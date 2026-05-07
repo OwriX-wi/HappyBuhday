@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1581109502421540601}
   - component: {fileID: 2611178018729569825}
   - component: {fileID: 6275644455080095276}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Candle 6
   m_TagString: Candle
   m_Icon: {fileID: 0}
@@ -77,9 +77,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1581109502421540601}
     m_Modifications:
+    - target: {fileID: 10350041652129079, guid: 98a06d4b82a9ab543894673361b6b6bf, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 746971426113694703, guid: 98a06d4b82a9ab543894673361b6b6bf, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1650000705320054768, guid: 98a06d4b82a9ab543894673361b6b6bf, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2520950483125266423, guid: 98a06d4b82a9ab543894673361b6b6bf, type: 3}
       propertyPath: m_Name
       value: Vefects Candle Prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2520950483125266423, guid: 98a06d4b82a9ab543894673361b6b6bf, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3425897948456845021, guid: 98a06d4b82a9ab543894673361b6b6bf, type: 3}
       propertyPath: m_LocalScale.x
@@ -132,6 +148,26 @@ PrefabInstance:
     - target: {fileID: 3425897948456845021, guid: 98a06d4b82a9ab543894673361b6b6bf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5169455145918536376, guid: 98a06d4b82a9ab543894673361b6b6bf, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8281267767403457182, guid: 98a06d4b82a9ab543894673361b6b6bf, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8473522132099809120, guid: 98a06d4b82a9ab543894673361b6b6bf, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8631539774580242852, guid: 98a06d4b82a9ab543894673361b6b6bf, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9218583385531906488, guid: 98a06d4b82a9ab543894673361b6b6bf, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
