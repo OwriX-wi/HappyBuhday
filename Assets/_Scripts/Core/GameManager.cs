@@ -60,6 +60,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("Go to Main Menu");
         if (InputManager.Instance != null)
             InputManager.Instance.EnableUIInput();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     /// <summary>
@@ -75,6 +78,9 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f; // простой вариант паузы
         EventBus.Instance.RaiseGamePaused();
         Debug.Log("Game paused");
+
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
 
     /// <summary>
@@ -90,6 +96,9 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         EventBus.Instance.RaiseGameResumed();
         Debug.Log("Game resumed");
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     /// <summary>

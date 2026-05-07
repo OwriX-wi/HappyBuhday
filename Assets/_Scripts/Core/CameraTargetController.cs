@@ -20,9 +20,6 @@ public class CameraTargetController : MonoBehaviour
         currentPitch = Mathf.Clamp(currentPitch, minVerticalAngle, maxVerticalAngle);
         transform.localRotation = Quaternion.Euler(currentPitch, currentYaw, 0f);
 
-        // Блокировка курсора для управления камерой
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     private void Update()
