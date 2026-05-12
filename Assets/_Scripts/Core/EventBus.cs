@@ -8,6 +8,7 @@ public class EventBus : MonoBehaviour
     //sobitiya
     public event Action OnGameResumed;
     public event Action OnGamePaused;
+    public event Action OnGameSetOpened;
 
 
     private void Awake()
@@ -19,6 +20,11 @@ public class EventBus : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void RaiseGameSettings()
+    {
+        OnGameSetOpened?.Invoke();
     }
 
     public void RaiseGameResumed()

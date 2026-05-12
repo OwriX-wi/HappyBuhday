@@ -6,6 +6,7 @@ public class PauseController : MonoBehaviour
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private Button buttonResume;
     [SerializeField] private Button buttonMainMenu;
+    [SerializeField] private Button buttonSettings;
 
     private void OnEnable()
     {
@@ -31,6 +32,8 @@ public class PauseController : MonoBehaviour
             buttonResume.onClick.AddListener(OnResumeClicked);
         if (buttonMainMenu != null)
             buttonMainMenu.onClick.AddListener(OnMainMenuClicked);
+        if (buttonSettings != null)
+            buttonSettings.onClick.AddListener(OnSettingsClicked);
     }
 
     void Update()
@@ -84,4 +87,15 @@ public class PauseController : MonoBehaviour
         if (GameManager.Instance != null)
             GameManager.Instance.GoToMenu();
     }
+
+    private void OnSettingsClicked()
+    {
+        //if the pause panel is active on screen, the button is clicked, then open settings menu and hide oause panel
+        if (pausePanel != null && pausePanel.activeSelf)
+        {
+            EventBus.Instance.RaiseGameSettings();
+            HidePausePanel();
+        }
+    }
+
 }
