@@ -9,6 +9,7 @@ public class EventBus : MonoBehaviour
     public event Action OnGameResumed;
     public event Action OnGamePaused;
     public event Action OnGameSetOpened;
+    public event Action OnGameReturned;
 
 
     private void Awake()
@@ -35,5 +36,10 @@ public class EventBus : MonoBehaviour
     public void RaiseGamePaused()
     {
         OnGamePaused?.Invoke();
+    }
+
+    public void RaiseGameReturned()
+    {
+        OnGameReturned?.Invoke();
     }
 }

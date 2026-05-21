@@ -60,11 +60,12 @@ public class BootstrapManager : MonoBehaviour
         _initialized = true;
         DontDestroyOnLoad(gameObject);
 
+        // Поочередно создаем все менеджеры исключительно через код
         CreateGameManager();
         CreateSceneLoader();
         CreateEventBus();
         CreateInputManager();
-
+        CreateAudioManager(); // Наш новый метод в едином стиле
     }
 
     private void Start()
@@ -75,6 +76,21 @@ public class BootstrapManager : MonoBehaviour
     private IEnumerator PreloadBeforeMainMenu()
     {
         yield return null;
+    }
+
+    // ОДНОТИПНЫЙ МЕТОД СОЗДАНИЯ АУДИО-МЕНЕДЖЕРА
+    private static void CreateAudioManager()
+    {
+        AudioManager existing = FindFirstObjectByType<AudioManager>();
+        if (existing != null)
+        {
+            DontDestroyOnLoad(existing.gameObject);
+            return;
+        }
+
+        GameObject go = new GameObject("AudioManager");
+        go.AddComponent<AudioManager>();
+        DontDestroyOnLoad(go);
     }
 
     private static void CreateGameManager()
@@ -130,7 +146,6 @@ public class BootstrapManager : MonoBehaviour
 
         GameObject go = new GameObject("InputManager");
         InputManager inputManager = go.AddComponent<InputManager>();
-
         inputManager.inputActions = Resources.Load<InputActionAsset>("InputSystem_Actions");
 
         if (inputManager.inputActions == null)

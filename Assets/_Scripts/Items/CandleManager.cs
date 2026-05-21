@@ -1,35 +1,44 @@
 using UnityEngine;
+using UnityEngine.Rendering; // Нужно для работы с Volume
+using UnityEngine.Rendering.Universal; // Нужно, если используете URP
+
+
 
 public class CandleManager : MonoBehaviour
 {
     public static CandleManager Instance { get; private set; }
 
+    [Header("Настройки свечей")]
     [SerializeField] private int totalCandles = 5;
-    [SerializeField] private float minAmbientIntensity = 0.2f;
-    [SerializeField] private float minSkyboxExposure = 0.2f;
-    [SerializeField] private float initialAmbientIntensity = 0.5f;
-    [SerializeField] private float initialSkyboxExposure = 1.0f;
-
-
     private int extinguishedCandles = 0;
+
+    [Header("Настройки затемнения через Post-Processing")]
+    [SerializeField] private Volume postProcessVolume;
+
+    [Tooltip("Экспозиция при зажженных свечах (нормальное состояние)")]
+    [SerializeField] private float initialExposure = 0f;
+
+    [Tooltip("На сколько опустится экспозиция, когда все свечи потухнут (минус делает темнее)")]
+    [SerializeField] private float minExposure = -3f;
+
+    private ColorAdjustments colorAdjustments;
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
 
-        // Сохраняем изначальные значения
-        initialAmbientIntensity = RenderSettings.ambientIntensity;
-        if (RenderSettings.skybox.HasProperty("_Exposure"))
-            initialSkyboxExposure = RenderSettings.skybox.GetFloat("_Exposure");
+        // Ищем компонент Color Adjustments в профиле Volume
+        if (postProcessVolume != null && postProcessVolume.profile.TryGet(out colorAdjustments))
+        {
+            // Принудительно включаем управление экспозицией
+            colorAdjustments.postExposure.overrideState = true;
+            colorAdjustments.postExposure.value = initialExposure;
+        }
         else
-            initialSkyboxExposure = 1.0f;
-
-        // Выводим значения в консоль
-        Debug.Log($"Initial Ambient Intensity: {initialAmbientIntensity}");
-        Debug.Log($"Initial Skybox Exposure: {initialSkyboxExposure}");
+        {
+            Debug.LogError("CandleManager: Не найден Volume или эффект Color Adjustments в его профиле!");
+        }
     }
 
     public void OnCandleExtinguished()
@@ -37,19 +46,19 @@ public class CandleManager : MonoBehaviour
         extinguishedCandles++;
         UpdateEnvironmentDarkness();
     }
-
     private void UpdateEnvironmentDarkness()
     {
         float t = Mathf.Clamp01((float)extinguishedCandles / totalCandles);
 
-        // Меняем ambient intensity
-        RenderSettings.ambientIntensity = Mathf.Lerp(initialAmbientIntensity, minAmbientIntensity, t);
-
-        // Меняем skybox exposure, если возможно
-        if (RenderSettings.skybox.HasProperty("_Exposure"))
+        if (colorAdjustments != null)
         {
-            float newExposure = Mathf.Lerp(initialSkyboxExposure, minSkyboxExposure, t);
-            RenderSettings.skybox.SetFloat("_Exposure", newExposure);
+            // ПРИНУДИТЕЛЬНО: Говорим Unity, что этот параметр сейчас ОГЛАВЛЕН скриптом
+            colorAdjustments.postExposure.overrideState = true;
+
+            // Плавно понижаем экспозицию
+            colorAdjustments.postExposure.value = Mathf.Lerp(initialExposure, minExposure, t);
+
+            Debug.Log($"Candles: {extinguishedCandles}/{totalCandles}. Real Volume Value: {colorAdjustments.postExposure.value}");
         }
     }
 }

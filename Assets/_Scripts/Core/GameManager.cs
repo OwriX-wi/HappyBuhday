@@ -61,8 +61,8 @@ public class GameManager : MonoBehaviour
         if (InputManager.Instance != null)
             InputManager.Instance.EnableUIInput();
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
 
     /// <summary>
@@ -103,15 +103,20 @@ public class GameManager : MonoBehaviour
 
     public void OpenSettingsOnPause()
     {
-        //если игра на паузе, то открываем настройки, не меняя состояние игры (остаемся в паузе)
-        if (CurrentState != GameState.Playing)
-            return;
-
-        CurrentState = GameState.Paused;
-        Time.timeScale = 0f;
-        EventBus.Instance.RaiseGameResumed();
+        //    CurrentState = GameState.Paused;
+        //    Time.timeScale = 0f;
+        //    EventBus.Instance.RaiseGameResumed();
         Debug.Log("Settings opened");
+        EventBus.Instance.RaiseGameSettings();
 
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+    }
+
+    public void ReturnFromSettings()
+    {
+        Debug.Log("Returned from settings to PauseMenu");
+        EventBus.Instance.RaiseGameReturned();
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
     }

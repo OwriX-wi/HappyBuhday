@@ -157,10 +157,14 @@ public class InputManager : MonoBehaviour
         UpdateInputValues();
     }
 
+    // Измените только метод UpdateInputValues, убрав умножение на mouseSensitivity:
     private void UpdateInputValues()
     {
         MoveInput = moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
+
+        // ТЕПЕРЬ ТУТ ЧИСТЫЙ ВВОД БЕЗ УМНОЖЕНИЯ
         LookInput = lookAction != null ? lookAction.ReadValue<Vector2>() : Vector2.zero;
+
         ZoomInput = zoomAction != null ? zoomAction.ReadValue<Vector2>().y : 0f;
         SprintHeld = sprintAction != null && sprintAction.IsPressed();
         CrouchHeld = crouchAction != null && crouchAction.IsPressed();
