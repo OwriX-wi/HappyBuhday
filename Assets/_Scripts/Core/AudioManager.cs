@@ -72,6 +72,19 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+
+    public void PlaySFX(AudioClip clip)
+    {
+        if (clip == null)
+        {
+            Debug.LogWarning("AudioManager: Попытка воспроизвести звуковой эффект с пустым AudioClip.");
+            return;
+        }
+
+        sfxSource.PlayOneShot(clip);
+    }
+
+
     // ==========================================
     // РЕАКЦИЯ НА СОСТОЯНИЯ ГЕЙМ-МЕНЕДЖЕРА
     // ==========================================

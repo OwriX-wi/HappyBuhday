@@ -5,6 +5,9 @@ public class EventBus : MonoBehaviour
 {
     public static EventBus Instance { get; private set; }
 
+    public event System.Action<Vector3> OnPlayerHitFurniture;
+    public event System.Action OnPlayerStartedRunning;
+
     //sobitiya
     public event Action OnGameResumed;
     public event Action OnGamePaused;
@@ -21,6 +24,16 @@ public class EventBus : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void TriggerPlayerHitFurniture(Vector3 hitPosition)
+    {
+        OnPlayerHitFurniture?.Invoke(hitPosition);
+    }
+
+    public void TriggerPlayerStartedRunning()
+    {
+        OnPlayerStartedRunning?.Invoke();
     }
 
     public void RaiseGameSettings()
