@@ -8,6 +8,9 @@ public class EventBus : MonoBehaviour
     public event System.Action<Vector3> OnPlayerHitFurniture;
     public event System.Action OnPlayerStartedRunning;
 
+    // Новое событие: позиция источника звука и длительность в секундах
+    public event Action<Vector3, float> OnPlayerMadeSound;
+
     //sobitiya
     public event Action OnGameResumed;
     public event Action OnGamePaused;
@@ -26,14 +29,25 @@ public class EventBus : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void TriggerPlayerHitFurniture(Vector3 hitPosition)
+    // Поддерживается прежний вызов; теперь можно передать duration (по умолчанию 1s)
+    public void TriggerPlayerHitFurniture(Vector3 hitPosition, float duration = 1f)
     {
         OnPlayerHitFurniture?.Invoke(hitPosition);
+        OnPlayerMadeSound?.Invoke(hitPosition, duration);
     }
 
+    // Триггер старта бега — считаем как громкий/длинный звук (duration по умолчанию 3s)
     public void TriggerPlayerStartedRunning()
     {
         OnPlayerStartedRunning?.Invoke();
+        // Если нужно, можно изменить длительность в другом месте
+        OnPlayerMadeSound?.Invoke(Vector3.zero, 3f);
+    }
+
+    // Прямой триггер для произвольного звука (позиция + длительность)
+    public void TriggerPlayerMadeSound(Vector3 position, float duration)
+    {
+        OnPlayerMadeSound?.Invoke(position, duration);
     }
 
     public void RaiseGameSettings()
