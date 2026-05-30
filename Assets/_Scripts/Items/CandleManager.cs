@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEngine.Rendering; // Нужно для работы с Volume
 using UnityEngine.Rendering.Universal; // Нужно, если используете URP
 
-
-
 public class CandleManager : MonoBehaviour
 {
     public static CandleManager Instance { get; private set; }

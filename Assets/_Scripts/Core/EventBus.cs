@@ -45,7 +45,7 @@ public class EventBus : MonoBehaviour
     }
 
     // Прямой триггер для произвольного звука (позиция + длительность)
-    public void TriggerPlayerMadeSound(Vector3 position, float duration)
+    public void TriggerPlayerMadeSound(Vector3 position, float duration, bool isRunning)
     {
         OnPlayerMadeSound?.Invoke(position, duration);
     }

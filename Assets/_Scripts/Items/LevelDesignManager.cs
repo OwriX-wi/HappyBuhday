@@ -20,6 +20,7 @@ public class LevelDesignManager : MonoBehaviour
             {
                 // Добавляем FurnitureHitDetector
                 child.gameObject.AddComponent<FurnitureHitDetector>();
+                child.gameObject.AddComponent<Rigidbody>();
             }
         }
 
